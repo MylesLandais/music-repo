@@ -14,9 +14,9 @@ path = "users/"
 # offset = None
 # need to hack on client_id more / this may be a secret,,,
 # maybe try NaN or None?
-client_id = ""
+client_id = "client_id=Uuw09fS26DL4edeoggypcws8t6qYGiOv"
 # app_version is probably tracked by sc internal teams
-app_version = ""
+app_version = "app_version=1596790030"
 # app_locale is not interesting.. just en // may want to test against "es"
 app_locale = "app_locale=en"
 
@@ -67,22 +67,27 @@ def playlists_without_albums(user_id, limit_param="limit=99"):
               + app_version + "&" \
               + app_locale
 
-    if url_cat == test_str:
+    #if url_cat == test_str:
         # DEBUG - print("w")
-        return requests.get(url_cat, headers=headers).json()
-    else:
-        print(url_cat)
-        print(test_str)
+    return requests.get(url_cat, headers=headers).json()
+    #else:
+    #    print(url_cat)
+    #    print(test_str)
 
 
 if __name__ == "__main__":
-    resp = playlists_without_albums("")
+    resp = playlists_without_albums("11362706")
     for i in resp['collection']:
         # DEBUG - print(i['title'])
         # Iterate your playlists & match the playlist for output
-        if i['title'] == "2014 - DnB" or i['id'] == "17760220":
-            for j in i["tracks"]:
-                s = "ids=" + str(j['id'])
-                resp = tracks(s)
-                print(resp[0]["title"])
+        if i['title'] == "2014 - dub" or i['id'] == "17760220":
+            fn = "../.out/" + "2014 - dub"
+            with open(fn, "w") as f:
+
+                for j in i["tracks"]:
+                    s = "ids=" + str(j['id'])
+
+                    resp = tracks(s)
+                    print( str(j['id']) + "," + resp[0]["title"])
+                    f.write(resp[0]["title"] + "\n")
             break
